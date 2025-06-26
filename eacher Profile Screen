@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn with Priya - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            background-color: #FDFDFD;
+            font-family: 'Poppins', sans-serif;
+            color: #3D3D3D;
+        }
+
+        /* Custom Font for Bio */
+        .font-lora-italic {
+            font-family: 'Lora', serif;
+            font-style: italic;
+        }
+
+        /* --- Custom UI Styles & Animations --- */
+        
+        /* Hide scrollbar utility */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Micro-interactions */
+        .skill-chip, .review-card, .cta-button {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-in-out;
+        }
+        .skill-chip:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .review-card:active {
+            transform: scale(0.98);
+            background-color: #F8F8F7;
+        }
+        .cta-button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        .time-slot:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease-in;
+        }
+        
+        /* Tooltip for 'What's Included' */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #3D3D3D;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #3D3D3D transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#FDFDFD',
+                        'brand-terracotta': '#E07A5F',
+                        'brand-olive': '#8B9A60',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-light': '#888888',
+                        'status-green': '#6FCF97',
+                        'divider': '#EEEEEE',
+                        'level-beginner': '#C8E6C9',
+                        'level-advanced': '#BBDEFB',
+                        'badge-gold': '#FDD835',
+                        'review-alt': '#F8F8F7',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen overflow-x-hidden">
+
+    <div id="app-container" class="pb-24">
+        
+        <!-- Teacher Spotlight Section -->
+        <section class="text-center pt-10 pb-6">
+            <div class="relative inline-block">
+                <img src="https://placehold.co/120x120/E07A5F/FFFFFF?text=P" alt="Priya Sharma" class="w-[120px] h-[120px] rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
+                <div class="absolute inset-0 rounded-full border-4 border-status-green"></div>
+            </div>
+            <h1 class="text-2xl font-bold mt-4 text-brand-text">Priya Sharma</h1>
+            <p class="text-base text-brand-text-light mt-1">Classical Guitar Instructor | 5+ Years Experience</p>
+            <p class="text-sm text-brand-text-light mt-2">📍 Jaipur, India</p>
+        </section>
+
+        <main class="px-6 space-y-6">
+            <!-- About Me -->
+            <div class="pt-6 border-t border-divider">
+                <h2 class="text-lg font-bold text-brand-text">About Me</h2>
+                <p class="font-lora-italic text-base text-gray-700 mt-3 leading-relaxed">
+                    "I’m passionate about helping beginners fall in love with guitar. My sessions are fun, flexible, and fully personalized to your learning style."
+                </p>
+            </div>
+
+            <!-- Skills Offered -->
+            <div class="pt-6 border-t border-divider">
+                <h2 class="text-lg font-bold text-brand-text">Skills Offered</h2>
+                <div class="no-scrollbar flex space-x-3 mt-4 overflow-x-auto pb-2">
+                    <!-- Skill Chip 1 -->
+                    <div class="skill-chip flex-shrink-0 w-36 h-24 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center p-2 relative">
+                        <span class="text-3xl">🎸</span>
+                        <span class="text-sm font-semibold mt-1">Guitar</span>
+                        <span class="absolute bottom-2 right-2 text-xs font-bold text-green-800 bg-level-beginner px-2 py-0.5 rounded-full">Beginner</span>
+                    </div>
+                    <!-- Skill Chip 2 -->
+                    <div class="skill-chip flex-shrink-0 w-36 h-24 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center p-2 relative">
+                         <span class="text-3xl">🗣️</span>
+                        <span class="text-sm font-semibold mt-1">Vocal Warmup</span>
+                        <span class="absolute bottom-2 right-2 text-xs font-bold text-green-800 bg-level-beginner px-2 py-0.5 rounded-full">Beginner</span>
+                    </div>
+                     <!-- Skill Chip 3 -->
+                    <div class="skill-chip flex-shrink-0 w-36 h-24 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center p-2 relative">
+                         <span class="text-3xl">🎼</span>
+                        <span class="text-sm font-semibold mt-1">Music Theory</span>
+                         <span class="absolute bottom-2 right-2 text-xs font-bold text-blue-800 bg-level-advanced px-2 py-0.5 rounded-full">Advanced</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rates & Packages -->
+            <div class="pt-6 border-t border-divider">
+                <h2 class="text-lg font-bold text-brand-text">Rates & Packages</h2>
+                <div class="mt-4 space-y-4">
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-xl font-bold text-brand-text">₹500/hr</span>
+                            <span class="text-base text-brand-text-light ml-1">(individual)</span>
+                        </div>
+                        <div class="tooltip inline-block">
+                             <span class="text-brand-text-light cursor-pointer">What's included ⓘ</span>
+                             <span class="tooltiptext">Personalized curriculum, practice materials, 24/7 support via chat.</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-xl font-bold text-brand-text">₹1200</span>
+                            <span class="text-base text-brand-text-light ml-1">(3-session pack)</span>
+                        </div>
+                         <div class="flex items-center space-x-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">
+                            <span>🛡️</span>
+                            <span>Money-Back Guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Availability -->
+            <div class="pt-6 border-t border-divider">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-bold text-brand-text">Availability</h2>
+                    <a href="#" class="text-sm font-semibold text-brand-terracotta underline">See Full Schedule</a>
+                </div>
+                <div class="grid grid-cols-7 gap-2 text-center mt-4">
+                    <div class="font-bold text-sm text-brand-text-light">Mon</div>
+                    <div class="font-bold text-sm text-brand-text-light">Tue</div>
+                    <div class="font-bold text-sm text-brand-text-light">Wed</div>
+                    <div class="font-bold text-sm text-brand-text-light">Thu</div>
+                    <div class="font-bold text-sm text-brand-text-light">Fri</div>
+                    <div class="font-bold text-sm text-brand-text-light">Sat</div>
+                    <div class="font-bold text-sm text-brand-text-light">Sun</div>
+                    <!-- Slots -->
+                    <div class="bg-gray-200 text-gray-400 text-xs rounded-lg p-2">N/A</div>
+                    <div class="time-slot bg-brand-olive text-white text-xs font-semibold rounded-lg p-2 cursor-pointer">4-7PM</div>
+                    <div class="time-slot bg-brand-olive text-white text-xs font-semibold rounded-lg p-2 cursor-pointer">5-8PM</div>
+                    <div class="bg-gray-200 text-gray-400 text-xs rounded-lg p-2">N/A</div>
+                    <div class="time-slot bg-brand-olive text-white text-xs font-semibold rounded-lg p-2 cursor-pointer">4-7PM</div>
+                    <div class="time-slot bg-brand-olive text-white text-xs font-semibold rounded-lg p-2 cursor-pointer">10AM-1PM</div>
+                    <div class="bg-gray-200 text-gray-400 text-xs rounded-lg p-2">N/A</div>
+                </div>
+            </div>
+            
+            <!-- Student Reviews -->
+            <div class="pt-6 border-t border-divider">
+                 <h2 class="text-lg font-bold text-brand-text">Student Reviews</h2>
+                 <div class="no-scrollbar flex space-x-4 mt-4 overflow-x-auto pb-2">
+                    <!-- Review Card 1 -->
+                    <div class="review-card flex-shrink-0 w-72 bg-white p-4 rounded-xl border border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40/8B9A60/FFFFFF?text=A" class="w-10 h-10 rounded-full" alt="Ananya R.">
+                            <div>
+                                <h4 class="font-bold text-sm">Ananya R.</h4>
+                                <div class="text-yellow-500">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3">"Priya is an amazing teacher! I learned so much in just a few weeks."</p>
+                        <p class="text-xs text-gray-400 mt-2">June 24, 2025</p>
+                    </div>
+                    <!-- Review Card 2 -->
+                     <div class="review-card flex-shrink-0 w-72 bg-review-alt p-4 rounded-xl border border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40/3D3D3D/FFFFFF?text=V" class="w-10 h-10 rounded-full" alt="Vikram S.">
+                            <div>
+                                <h4 class="font-bold text-sm">Vikram S.</h4>
+                                <div class="text-yellow-500">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3">"Her method is so effective and easy to follow. Highly recommended!"</p>
+                        <p class="text-xs text-gray-400 mt-2">June 18, 2025</p>
+                    </div>
+                 </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sticky Bottom CTA Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-brand-cream/90 backdrop-blur-lg z-40 border-t border-divider">
+        <div class="p-4 flex items-center justify-center space-x-3 max-w-lg mx-auto">
+            <button class="cta-button w-full flex items-center justify-center space-x-2 py-3.5 border-2 border-brand-terracotta text-brand-terracotta font-bold rounded-xl">
+                <span>💬</span>
+                <span>Message</span>
+            </button>
+            <button class="cta-button w-full flex items-center justify-center space-x-2 py-3.5 bg-brand-terracotta text-white font-bold rounded-xl shadow-lg shadow-brand-terracotta/30">
+                 <span>🗓️</span>
+                <span>Book Lesson</span>
+            </button>
+        </div>
+    </footer>
+    
+</body>
+</html>
