@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Your Lesson - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-bg: #F8F7F4;
+            --brand-card-bg: #FFFFFF;
+            --brand-primary: #D97757; /* Terracotta */
+            --brand-secondary: #3A4F41; /* Forest Green */
+            --brand-text: #3D3D3D;
+            --brand-text-muted: #8A8A8A;
+            --brand-border: #EAE9E5;
+            --brand-gold: #FFD700; /* Star color */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .star {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+            cursor: pointer;
+        }
+        .star:hover {
+            transform: scale(1.2);
+        }
+        .star.selected {
+            color: var(--brand-gold);
+            transform: scale(1.1);
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+        .star.sparkle {
+            animation: sparkle 0.4s ease-in-out;
+        }
+
+        .success-overlay {
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti-fall 2.5s ease-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(1080deg); opacity: 0; }
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-bg': '#F8F7F4',
+                        'brand-card-bg': '#FFFFFF',
+                        'brand-primary': '#D97757',
+                        'brand-secondary': '#3A4F41',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-muted': '#8A8A8A',
+                        'brand-border': '#EAE9E5',
+                        'brand-gold': '#FFD700',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-sm mx-auto flex flex-col p-6 relative">
+        <!-- Main Review Content -->
+        <main id="review-content">
+            <!-- Header -->
+            <header class="text-center">
+                <img src="https://placehold.co/80x80/3A4F41/FFFFFF?text=R" class="w-20 h-20 rounded-full mx-auto shadow-lg" alt="Rahul">
+                <p class="text-sm text-brand-text-muted mt-4">Review your session with</p>
+                <h1 class="text-2xl font-bold text-brand-secondary">Rahul • Cooking Basics</h1>
+            </header>
+
+            <!-- Star Rating -->
+            <section class="text-center my-10">
+                <div id="star-rating" class="flex justify-center space-x-2 text-5xl text-gray-300">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </section>
+            
+            <!-- Comment Box -->
+            <section>
+                <textarea class="w-full h-28 bg-brand-card-bg border-2 border-brand-border rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50" placeholder="What did you enjoy or suggest? (Optional)"></textarea>
+            </section>
+
+            <!-- Actions -->
+            <footer class="mt-8 text-center">
+                <button id="submit-review-btn" class="w-full bg-brand-primary text-white text-lg font-bold py-4 rounded-2xl shadow-lg shadow-brand-primary/40 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
+                    Submit Review
+                </button>
+                <button class="mt-4 text-sm font-semibold text-brand-text-muted hover:text-brand-text">Maybe Later</button>
+            </footer>
+        </main>
+        
+        <!-- Success State Overlay -->
+        <div id="success-overlay" class="absolute inset-0 bg-brand-bg flex-col items-center justify-center text-center p-6 hidden">
+            <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
+            <div class="w-24 h-24 bg-brand-secondary text-white rounded-full flex items-center justify-center text-5xl shadow-2xl shadow-brand-secondary/30">
+                👍
+            </div>
+            <h2 class="text-2xl font-bold mt-6">Thanks for your feedback!</h2>
+            <p class="text-brand-text-muted mt-2">Your review helps teachers like Rahul grow and improve.</p>
+            <button id="close-success-btn" class="mt-8 bg-brand-secondary text-white font-bold py-3 px-8 rounded-full">Done</button>
+        </div>
+
+    </div>
+    
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const ratingContainer = document.getElementById('star-rating');
+        const submitBtn = document.getElementById('submit-review-btn');
+        const reviewContent = document.getElementById('review-content');
+        const successOverlay = document.getElementById('success-overlay');
+        const confettiContainer = document.getElementById('confetti-container');
+
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                currentRating = parseInt(star.dataset.value);
+                updateStars();
+                if (currentRating === 5) {
+                    triggerSparkle();
+                }
+            });
+
+            star.addEventListener('mouseover', () => {
+                 const hoverValue = parseInt(star.dataset.value);
+                 stars.forEach((s, i) => {
+                     s.style.color = i < hoverValue ? 'var(--brand-gold)' : 'rgb(209 213 219)';
+                 });
+            });
+        });
+        
+        ratingContainer.addEventListener('mouseleave', updateStars);
+
+        function updateStars() {
+            stars.forEach((star, i) => {
+                if (i < currentRating) {
+                    star.classList.add('selected');
+                    star.style.color = 'var(--brand-gold)';
+                } else {
+                    star.classList.remove('selected');
+                     star.style.color = 'rgb(209 213 219)';
+                }
+            });
+        }
+        
+        function triggerSparkle() {
+            stars.forEach(star => {
+                if(star.classList.contains('selected')) {
+                    star.classList.add('sparkle');
+                    setTimeout(() => star.classList.remove('sparkle'), 400);
+                }
+            });
+        }
+
+        function triggerConfetti() {
+            const colors = ['#D97757', '#3A4F41', '#FFFFFF', '#FFD700'];
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -50}vh`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.backgroundColor = colors[i % colors.length];
+                confetti.style.borderRadius = `${Math.random() > 0.5 ? '50%' : '0'}`;
+                confetti.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                confettiContainer.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2500);
+            }
+        }
+        
+        submitBtn.addEventListener('click', () => {
+            if (currentRating === 0) {
+                alert("Please select a rating before submitting.");
+                return;
+            }
+            reviewContent.style.display = 'none';
+            successOverlay.style.display = 'flex';
+            triggerConfetti();
+        });
+
+    </script>
+</body>
+</html>
