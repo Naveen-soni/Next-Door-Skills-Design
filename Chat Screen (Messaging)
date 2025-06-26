@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect with Meera - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        :root {
+            --brand-primary: #4A55A2; /* A deep, sophisticated blue */
+            --brand-primary-dark: #404B8D;
+            --brand-accent: #FF7B54; /* A vibrant coral for CTAs */
+            --brand-bg: #FDFDFF; /* A very clean, almost white neutral */
+            --brand-incoming-bg: #F4F6F8;
+            --brand-border: #EAEBF0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: #1a1a1a;
+        }
+
+        /* --- World-Class Animations & Styles --- */
+        
+        @keyframes bubble-in {
+            from { opacity: 0; transform: translateY(15px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .bubble-anim {
+            animation: bubble-in 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(45, 212, 191, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
+        }
+        .online-dot {
+            animation: pulse-green 2s infinite;
+        }
+        
+        .input-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #b1b1b1; }
+
+        .cta-glow {
+            box-shadow: 0 0 15px rgba(255, 123, 84, 0.5);
+            animation: pulse-cta 2.5s infinite;
+        }
+
+        @keyframes pulse-cta {
+            0% { box-shadow: 0 0 10px rgba(255, 123, 84, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 123, 84, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(255, 123, 84, 0.3); }
+        }
+
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#FDFDFF',
+                        'brand-primary': '#4A55A2',
+                        'brand-primary-dark': '#404B8D',
+                        'brand-accent': '#FF7B54',
+                        'brand-accent-dark': '#F96A3D',
+                        'brand-text': '#1a1a1a',
+                        'brand-text-light': '#888888',
+                        'brand-incoming-bg': '#F4F6F8',
+                        'border-soft': '#EAEBF0',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen overflow-hidden">
+
+    <div class="h-screen w-full mx-auto flex flex-col bg-brand-bg relative">
+        <!-- Sticky Header -->
+        <header class="sticky top-0 bg-brand-bg/80 backdrop-blur-xl z-30 border-b border-border-soft">
+            <div class="flex items-center justify-between p-3.5">
+                 <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <img src="https://placehold.co/48x48/4A55A2/FFFFFF?text=M" alt="Meera Joshi" class="w-12 h-12 rounded-full">
+                        <span class="online-dot absolute bottom-0 right-0 block h-3 w-3 bg-teal-400 rounded-full border-2 border-brand-bg"></span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-brand-text">Meera Joshi</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-5 pr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-brand-primary transition-colors cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-brand-primary transition-colors cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Chat Thread -->
+        <main class="flex-grow p-4 space-y-2 overflow-y-auto custom-scrollbar z-10">
+            <!-- Bubbles will be injected by JS for animation demo -->
+        </main>
+        
+        <!-- Sticky Input Bar -->
+        <footer class="sticky bottom-0 bg-brand-bg/80 backdrop-blur-xl z-30 border-t border-border-soft">
+            <div class="p-3 flex items-center space-x-3">
+                <button class="flex-shrink-0 text-gray-400 hover:text-brand-primary transition-colors p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" /></svg>
+                </button>
+                <div class="relative flex-grow">
+                     <input id="chat-input" type="text" placeholder="Type a message..." class="w-full bg-white border border-border-soft rounded-full pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 transition-shadow">
+                </div>
+                <div class="relative flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                    <button id="mic-btn" class="input-icon absolute inset-0 flex items-center justify-center text-gray-400 hover:text-brand-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                     </button>
+                    <button id="send-btn" class="input-icon absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-primary-dark text-white rounded-full shadow-lg shadow-brand-primary/40 opacity-0 transform scale-75 hover:scale-105">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform rotate-45 -translate-x-px translate-y-px" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // --- CHAT SIMULATION & ANIMATION LOGIC ---
+        
+        const chatContainer = document.querySelector('main');
+        const chatInput = document.getElementById('chat-input');
+        const micBtn = document.getElementById('mic-btn');
+        const sendBtn = document.getElementById('send-btn');
+        
+        const mockChat = [
+            { type: 'incoming', text: "Hi there! Thanks for reaching out. What are you hoping to learn? 😊", time: "10:35 AM" },
+            { type: 'outgoing', text: "Hey Meera! I'm a complete beginner and I'd love to learn the basics of acoustic guitar.", time: "10:36 AM", read: true },
+            { type: 'incoming', text: "That's wonderful! We can definitely start from scratch. Is this the kind of guitar you have?", image: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z3VpdGFyfGVufDB8fDB8fHww&auto=format&fit=crop&w=300&q=60", time: "10:37 AM" },
+            { type: 'typing' },
+            { type: 'schedule_cta' },
+        ];
+
+        // --- UI HELPER FUNCTIONS ---
+
+        const createBubble = (msg) => {
+            const justify = msg.type === 'outgoing' ? 'justify-end' : 'justify-start';
+            const bubbleStyle = msg.type === 'outgoing' 
+                ? 'bg-gradient-to-br from-brand-primary to-brand-primary-dark text-white rounded-3xl rounded-br-lg' 
+                : 'bg-brand-incoming-bg text-brand-text rounded-3xl rounded-bl-lg';
+            
+            const readReceipt = msg.read ? `<svg class="inline-block w-4 h-4 ml-1 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path><path d="M11.414 5.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414L8 8.586l3.293-3.293a1 1 0 011.414 0z"></path></svg>` : '';
+
+            let content = `<p class="leading-relaxed">${msg.text}</p>`;
+            if (msg.image) {
+                content += `<img src="${msg.image}" class="rounded-lg mt-2 max-w-xs" alt="Chat Image">`;
+            }
+            
+            return `
+                <div class="flex ${justify} bubble-anim opacity-0">
+                    <div class="w-auto max-w-[75%]">
+                        <div class="p-4 shadow-sm ${bubbleStyle}">${content}</div>
+                        <p class="text-xs text-brand-text-light mt-1.5 px-2 ${msg.type === 'outgoing' ? 'text-right' : ''}">${msg.time} ${readReceipt}</p>
+                    </div>
+                </div>
+            `;
+        };
+
+        const createTypingIndicator = () => {
+             return `
+                <div class="flex justify-start bubble-anim opacity-0" id="typing-indicator">
+                    <div class="p-4 shadow-sm bg-brand-incoming-bg rounded-3xl rounded-bl-lg">
+                        <div class="flex items-center justify-center space-x-1.5 h-5">
+                            <div class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></div>
+                            <div class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></div>
+                            <div class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>`;
+        };
+        
+        const createScheduleCTA = () => {
+            return `
+                 <div class="py-4 bubble-anim opacity-0">
+                    <div class="bg-white p-5 rounded-2xl border border-border-soft flex flex-col items-center text-center shadow-xl shadow-gray-200/50">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-accent to-orange-400 flex items-center justify-center text-white cta-glow">
+                             <span class="text-3xl">🗓️</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-brand-text mt-4">Ready to Start Learning?</h3>
+                        <p class="text-brand-text-light text-sm mt-1 mb-4">Book your first lesson with Meera.</p>
+                        <button class="w-full bg-brand-primary text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-primary-dark transition-all duration-300 transform hover:scale-105">Schedule Your Lesson</button>
+                    </div>
+                </div>`;
+        }
+
+        // --- CHAT SIMULATION ---
+        
+        let messageIndex = 0;
+        const displayNextMessage = () => {
+            if (messageIndex >= mockChat.length) return;
+
+            const msg = mockChat[messageIndex];
+            let html;
+
+            if (msg.type === 'typing') {
+                html = createTypingIndicator();
+            } else if (msg.type === 'schedule_cta') {
+                html = createScheduleCTA();
+            } else {
+                html = createBubble(msg);
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) typingIndicator.remove();
+            }
+            
+            chatContainer.innerHTML += html;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            messageIndex++;
+            
+            setTimeout(displayNextMessage, msg.type === 'typing' ? 2000 : 1200);
+        };
+        
+        // --- EVENT LISTENERS ---
+        
+        chatInput.addEventListener('input', () => {
+            if (chatInput.value.length > 0) {
+                micBtn.style.opacity = '0';
+                micBtn.style.transform = 'scale(0.75) rotate(-45deg)';
+                sendBtn.style.opacity = '1';
+                sendBtn.style.transform = 'scale(1) rotate(0)';
+            } else {
+                micBtn.style.opacity = '1';
+                micBtn.style.transform = 'scale(1) rotate(0)';
+                sendBtn.style.opacity = '0';
+                sendBtn.style.transform = 'scale(0.75) rotate(45deg)';
+            }
+        });
+
+        // Kick off the chat simulation
+        setTimeout(displayNextMessage, 500);
+
+    </script>
+</body>
+</html>
