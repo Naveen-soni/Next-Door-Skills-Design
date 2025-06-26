@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Plans - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-bg: #F8F7F4;
+            --brand-card-bg: #FFFFFF;
+            --brand-primary: #D97757; /* Terracotta */
+            --brand-secondary: #3A4F41; /* Olive Green */
+            --brand-gold: #EFAF44; /* Gold accent */
+            --brand-text: #3D3D3D;
+            --brand-text-muted: #8A8A8A;
+            --brand-border: #EAE9E5;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(217, 119, 87, 0.05) 0%, rgba(58, 79, 65, 0.05) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+            animation: move-grid 60s linear infinite;
+        }
+
+        @keyframes move-grid {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-10rem, -10rem); }
+        }
+        
+        .plan-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .featured-plan {
+            border: 2px solid var(--brand-gold);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px -15px rgba(239, 175, 68, 0.3);
+        }
+        
+        .testimonial-carousel::-webkit-scrollbar { display: none; }
+        .testimonial-carousel { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .comparison-table {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .comparison-table.open {
+            max-height: 500px; /* Adjust as needed */
+        }
+
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-bg': '#F8F7F4',
+                        'brand-card-bg': '#FFFFFF',
+                        'brand-primary': '#D97757',
+                        'brand-secondary': '#3A4F41',
+                        'brand-gold': '#EFAF44',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-muted': '#8A8A8A',
+                        'brand-border': '#EAE9E5',
+                    },
+                     borderRadius: {
+                        '2xl': '1rem',
+                        '3xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen">
+
+    <div class="w-full flex flex-col justify-between relative">
+        <!-- Main Content (Scrollable) -->
+        <main class="flex-grow z-10 pb-32">
+            <!-- Header Section -->
+            <section class="header-gradient text-center py-16 px-6">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-secondary">Get More Students with Premium Plans</h1>
+                <p class="text-brand-text-muted mt-3 max-w-xl mx-auto">Boost your visibility. Get insights. Grow faster.</p>
+            </section>
+            
+            <!-- Pricing Cards Section -->
+            <section class="p-6 -mt-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+                    <!-- Starter Plan -->
+                    <div class="plan-card bg-white p-6 rounded-3xl shadow-lg shadow-gray-200/50 border border-brand-border">
+                        <h2 class="text-lg font-bold text-brand-text-muted">Starter</h2>
+                        <p class="text-4xl font-extrabold my-2">₹0</p>
+                        <ul class="space-y-3 text-sm my-6">
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Basic Listing</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>1 Skill</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-red-400">❌</span><span class="text-gray-400">No Analytics</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-red-400">❌</span><span class="text-gray-400">No Boosted Visibility</span></li>
+                        </ul>
+                        <button class="w-full border-2 border-brand-secondary text-brand-secondary font-bold py-3 rounded-xl mt-auto hover:bg-brand-secondary hover:text-white transition-colors">Select Plan</button>
+                    </div>
+
+                    <!-- Featured Plan -->
+                     <div class="plan-card featured-plan bg-white p-6 rounded-3xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-brand-gold text-white text-xs font-bold px-4 py-1 rounded-bl-xl">Most Popular</div>
+                        <h2 class="text-lg font-bold text-brand-gold">👑 Featured</h2>
+                        <p class="text-4xl font-extrabold my-2">₹699 <span class="text-base font-medium text-brand-text-muted">/ month</span></p>
+                        <ul class="space-y-3 text-sm my-6">
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span><strong>Top 1</strong> Search Priority</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span><strong>Unlimited</strong> Listings</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Advanced Insights</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>‘Featured’ Badge</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Priority Support</span></li>
+                        </ul>
+                        <button class="w-full bg-brand-gold text-white font-bold py-3 rounded-xl mt-auto hover:bg-yellow-600 transition-colors">Select Plan</button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="plan-card bg-white p-6 rounded-3xl shadow-lg shadow-gray-200/50 border border-brand-border">
+                        <h2 class="text-lg font-bold text-brand-secondary">Pro</h2>
+                        <p class="text-4xl font-extrabold my-2">₹299 <span class="text-base font-medium text-brand-text-muted">/ month</span></p>
+                        <ul class="space-y-3 text-sm my-6">
+                             <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Top 5 Listing Boost</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Unlimited Skills</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-green-500">✔</span><span>Basic Insights</span></li>
+                             <li class="flex items-center space-x-3"><span class="text-red-400">❌</span><span class="text-gray-400">Featured Badge</span></li>
+                        </ul>
+                        <button class="w-full border-2 border-brand-secondary text-brand-secondary font-bold py-3 rounded-xl mt-auto hover:bg-brand-secondary hover:text-white transition-colors">Select Plan</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="py-12">
+                 <h2 class="text-2xl font-bold text-center mb-6 px-6">Loved by Teachers Like You</h2>
+                 <div class="testimonial-carousel flex space-x-6 overflow-x-auto px-6">
+                    <!-- Testimonial 1 -->
+                    <div class="flex-shrink-0 w-80 bg-white p-6 rounded-2xl shadow-md">
+                        <p class="text-brand-text italic">"Since upgrading to Featured, my student count doubled in 2 weeks! The visibility boost is real."</p>
+                        <div class="flex items-center mt-4">
+                            <img src="https://placehold.co/40x40/3A4F41/FFFFFF?text=A" class="w-10 h-10 rounded-full" alt="Aarav S.">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm">Aarav S.</p>
+                                <p class="text-xs text-brand-text-muted">Guitar Teacher</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Testimonial 2 -->
+                    <div class="flex-shrink-0 w-80 bg-white p-6 rounded-2xl shadow-md">
+                        <p class="text-brand-text italic">"The analytics from the Pro plan helped me understand what students are looking for. Invaluable!"</p>
+                        <div class="flex items-center mt-4">
+                            <img src="https://placehold.co/40x40/D97757/FFFFFF?text=S" class="w-10 h-10 rounded-full" alt="Sunita M.">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm">Sunita M.</p>
+                                <p class="text-xs text-brand-text-muted">Yoga Instructor</p>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+             <!-- Comparison Section -->
+            <section class="px-6 py-6 text-center">
+                 <button id="compare-btn" class="font-semibold text-brand-primary underline">Compare all features</button>
+                 <div id="comparison-table" class="comparison-table mt-4 text-left">
+                     <div class="bg-white rounded-2xl shadow-md p-4 overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-brand-border">
+                                    <th class="py-2 pr-4 text-left font-bold">Feature</th>
+                                    <th class="py-2 px-2 font-bold">Starter</th>
+                                    <th class="py-2 px-2 font-bold text-brand-secondary">Pro</th>
+                                    <th class="py-2 pl-2 font-bold text-brand-gold">Featured</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-brand-border"><td class="py-3 pr-4">Skills per Listing</td><td class="text-center">1</td><td class="text-center font-semibold">Unlimited</td><td class="text-center font-semibold">Unlimited</td></tr>
+                                <tr class="border-b border-brand-border"><td class="py-3 pr-4">Search Boost</td><td class="text-center">❌</td><td class="text-center text-green-500 font-semibold">Top 5</td><td class="text-center text-green-500 font-semibold">Top 1</td></tr>
+                                <tr><td class="py-3 pr-4">Analytics</td><td class="text-center">❌</td><td class="text-center">Basic</td><td class="text-center font-semibold">Advanced</td></tr>
+                            </tbody>
+                        </table>
+                     </div>
+                 </div>
+            </section>
+
+        </main>
+        
+        <!-- Sticky Bottom CTA Bar -->
+        <footer class="fixed bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-brand-bg to-transparent">
+            <div class="bg-brand-card-bg p-4 rounded-3xl shadow-2xl shadow-gray-400/30 max-w-lg mx-auto">
+                <button class="w-full bg-brand-secondary text-white text-lg font-bold py-4 rounded-2xl shadow-lg shadow-brand-secondary/40 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
+                    Upgrade Now
+                </button>
+                 <p class="text-center text-xs text-brand-text-muted flex items-center justify-center space-x-1.5 mt-3">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+                    <span>Secure Stripe/UPI Payment • Cancel Anytime</span>
+                </p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        const compareBtn = document.getElementById('compare-btn');
+        const comparisonTable = document.getElementById('comparison-table');
+
+        compareBtn.addEventListener('click', () => {
+            comparisonTable.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
