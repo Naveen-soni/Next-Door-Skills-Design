@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextDoor Skills - Welcome</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Animations --- */
+
+        /* General fade-in-up animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Background blob movement */
+        @keyframes drift {
+            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(15px) rotate(10deg); }
+            50% { transform: translateY(10px) translateX(-10px) rotate(-5deg); }
+            75% { transform: translateY(-15px) translateX(20px) rotate(5deg); }
+            100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+        }
+
+        /* SVG icon animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        @keyframes noteFloat {
+            0% { opacity: 1; transform: translateY(0) translateX(0); }
+            100% { opacity: 0; transform: translateY(-25px) translateX(10px); }
+        }
+
+        /* Swipe arrow animation */
+        @keyframes swipe {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+
+        /* Class definitions for animations */
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        .header-anim { animation-delay: 0.2s; opacity: 0; }
+        .illustration-anim { animation-delay: 0.4s; opacity: 0; }
+        .tagline-anim { animation-delay: 0.6s; opacity: 0; }
+        .footer-anim { animation-delay: 0.8s; opacity: 0; }
+        
+        .blob {
+            will-change: transform;
+            animation: drift 20s infinite ease-in-out;
+        }
+        .blob-2 {
+             animation-delay: -5s;
+             animation-duration: 25s;
+        }
+
+        /* Applying animations to SVG elements */
+        #guitarist, #painter, #gardener {
+            animation: float 4s infinite ease-in-out;
+        }
+        #painter { animation-delay: -1s; }
+        #gardener { animation-delay: -2s; }
+        
+        #note1 { animation: noteFloat 2.5s infinite ease-out; animation-delay: 0s; }
+        #note2 { animation: noteFloat 2.5s infinite ease-out; animation-delay: 0.5s; }
+        
+        .swipe-arrow {
+            animation: swipe 2s infinite ease-in-out;
+        }
+    </style>
+    
+    <script>
+        // Custom color configuration for Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#FDFCF9',
+                        'brand-terracotta': '#E86A6A',
+                        'brand-terracotta-dark': '#E15454',
+                        'brand-olive': '#7C8A5B',
+                        'brand-olive-dark': '#6B784E',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-light': '#6B6B6B',
+                        'brand-accent': '#F5C451', /* A warm, sunny yellow */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-cream flex items-center justify-center min-h-screen overflow-hidden">
+
+    <!-- Main Container -->
+    <div class="w-full max-w-sm mx-auto p-8 flex flex-col h-screen relative">
+
+        <!-- Animated Background Shapes -->
+        <div class="absolute top-0 left-0 w-56 h-56 bg-brand-terracotta/10 rounded-full -translate-x-24 -translate-y-24 blur-3xl blob"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-brand-olive/10 rounded-full translate-x-24 translate-y-24 blur-3xl blob blob-2"></div>
+        
+        <main class="flex-grow flex flex-col justify-center text-center z-10">
+            <!-- App Name and Tagline -->
+            <header class="mb-8 animate-fade-in-up header-anim">
+                <h1 class="text-4xl font-bold text-brand-olive tracking-normal">NextDoor Skills</h1>
+                <p class="mt-2 text-md font-light text-brand-text-light">A marketplace for learning & teaching near you</p>
+            </header>
+
+            <!-- Animated Community Illustration -->
+            <div class="my-4 px-4 animate-fade-in-up illustration-anim">
+                <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                   <!-- Scene background elements -->
+                    <path d="M0 180 C 80 140, 220 140, 300 180 Z" fill="#7C8A5B" opacity="0.1"/>
+                    <circle cx="250" cy="50" r="15" fill="#F5C451" opacity="0.5"/>
+                    
+                    <!-- Person 1: Guitarist -->
+                    <g id="guitarist" transform="translate(40, 60)">
+                        <circle cx="25" cy="35" r="22" fill="#E86A6A" />
+                        <path d="M25 57 C 10 87, 40 87, 25 57 Z" fill="#E86A6A" />
+                        <path d="M38, 20 C 55 30, 55 55, 38 65 Q 60 42.5, 38 20" fill="#A16207" />
+                        <circle cx="43" cy="42" r="4" fill="#FDFCF9" />
+                        <!-- Floating musical notes -->
+                        <path id="note1" d="M -5 30 q 5 -10 10 0 t 10 0" stroke="#3D3D3D" stroke-width="2" fill="none"/>
+                        <path id="note2" d="M -10 15 q 5 -10 10 0 t 10 0" stroke="#3D3D3D" stroke-width="2" fill="none"/>
+                    </g>
+
+                    <!-- Person 2: Painter -->
+                    <g id="painter" transform="translate(200, 65)">
+                        <circle cx="25" cy="35" r="22" fill="#60A5FA" />
+                        <path d="M25 57 C 10 87, 40 87, 25 57 Z" fill="#60A5FA" />
+                        <rect x="-20" y="25" width="25" height="30" rx="3" fill="#FDFCF9" stroke="#E5E7EB" stroke-width="1.5"/>
+                        <path d="M -15 30 h 15 v 20 h -15 z" fill="#F5C451"/>
+                        <path d="M 0 50 l 5 -20 l 5 0" stroke="#E86A6A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    </g>
+                    
+                    <!-- Person 3: Gardener -->
+                    <g id="gardener" transform="translate(120, 75)">
+                        <circle cx="25" cy="35" r="22" fill="#F5C451" />
+                        <path d="M25 57 C 10 87, 40 87, 25 57 Z" fill="#F5C451" />
+                        <path d="M 0 30 C 0 20, 10 20, 10 30" stroke="#7C8A5B" stroke-width="2.5" fill="none" />
+                        <circle cx="5" cy="18" r="5" fill="#34D399"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Motivational Tagline -->
+            <p class="text-3xl font-semibold text-brand-terracotta mt-8 mb-4 animate-fade-in-up tagline-anim">
+                Learn Anything. Teach Everything.
+            </p>
+        </main>
+
+        <!-- Action Buttons & Onboarding Indicator -->
+        <footer class="pb-8 z-10 animate-fade-in-up footer-anim">
+             <div class="space-y-4">
+                <button class="w-full text-white bg-brand-terracotta hover:bg-brand-terracotta-dark font-bold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl shadow-brand-terracotta/20 hover:shadow-2xl hover:-translate-y-1">
+                    Sign Up
+                </button>
+                <button class="w-full text-brand-olive border-2 border-brand-olive/50 hover:bg-brand-olive/10 hover:border-brand-olive font-bold py-4 px-6 rounded-2xl text-lg transition-colors duration-300">
+                    Login
+                </button>
+            </div>
+            <!-- Swipe Arrow Indicator -->
+            <div class="flex justify-center items-center space-x-2 mt-8 text-brand-olive/60">
+                <span class="text-sm font-light">swipe</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 swipe-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
