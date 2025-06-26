@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-bg: #F8F7F4;
+            --brand-card-bg: #FFFFFF;
+            --brand-primary: #D97757; /* Terracotta */
+            --brand-secondary: #3A4F41; /* Forest Green */
+            --brand-text: #3D3D3D;
+            --brand-text-muted: #8A8A8A;
+            --brand-border: #EAE9E5;
+            --brand-info: #4A90E2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .tab-active {
+            background-color: var(--brand-secondary);
+            color: white;
+        }
+        
+        .notification-card {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .notification-card:hover {
+            transform: scale(1.02);
+        }
+        .notification-unread {
+            background-color: #F0F8FF; /* A very light blue */
+        }
+        .promo-card {
+            border-left: 4px solid var(--brand-primary);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-bg': '#F8F7F4',
+                        'brand-card-bg': '#FFFFFF',
+                        'brand-primary': '#D97757',
+                        'brand-secondary': '#3A4F41',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-muted': '#8A8A8A',
+                        'brand-border': '#EAE9E5',
+                        'brand-info': '#4A90E2',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen">
+
+    <div class="w-full flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="sticky top-0 bg-brand-bg/80 backdrop-blur-lg z-20 border-b border-brand-border">
+            <div class="p-6 flex justify-between items-center">
+                <h1 class="text-3xl font-extrabold flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <span>Notifications</span>
+                </h1>
+                <button id="mark-all-read" class="text-sm font-semibold text-brand-primary">Mark all as read</button>
+            </div>
+            <!-- Filter Tabs -->
+             <div class="px-6 pb-3">
+                 <div class="flex space-x-2">
+                    <button data-filter="all" class="filter-tab tab-active flex-1 text-sm font-semibold px-4 py-2 rounded-full transition-colors">All</button>
+                    <button data-filter="bookings" class="filter-tab flex-1 text-sm font-semibold px-4 py-2 rounded-full transition-colors text-brand-text-muted">Bookings</button>
+                    <button data-filter="messages" class="filter-tab flex-1 text-sm font-semibold px-4 py-2 rounded-full transition-colors text-brand-text-muted">Messages</button>
+                    <button data-filter="promotions" class="filter-tab flex-1 text-sm font-semibold px-4 py-2 rounded-full transition-colors text-brand-text-muted">Promotions</button>
+                </div>
+             </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="notification-list" class="flex-grow p-6 space-y-4">
+            <!-- Booking Notification (Unread) -->
+            <div class="notification-card notification-unread bg-white rounded-2xl shadow-md p-4 flex items-start space-x-4 cursor-pointer" data-category="bookings">
+                <div class="relative flex-shrink-0">
+                    <div class="w-12 h-12 bg-blue-100 text-brand-info rounded-full flex items-center justify-center text-2xl">📅</div>
+                    <span class="unread-dot absolute top-0 right-0 block h-3 w-3 bg-blue-500 rounded-full border-2 border-white"></span>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="font-bold">Lesson booked with Priya</h2>
+                    <p class="text-sm text-brand-text-muted">Your classical guitar lesson is set for tomorrow at 5:00 PM.</p>
+                    <p class="text-xs text-brand-text-muted mt-1">5m ago</p>
+                </div>
+            </div>
+
+            <!-- Message Notification -->
+            <div class="notification-card bg-white rounded-2xl shadow-md p-4 flex items-start space-x-4 cursor-pointer" data-category="messages">
+                <div class="relative flex-shrink-0">
+                     <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl">💬</div>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="font-bold">New message from Rohan</h2>
+                    <p class="text-sm text-brand-text-muted">"Hey! Are you free to swap skills next week?"</p>
+                    <p class="text-xs text-brand-text-muted mt-1">2h ago</p>
+                </div>
+            </div>
+
+             <!-- Promotion Notification -->
+            <div class="notification-card promo-card bg-white rounded-2xl shadow-md p-4 flex items-start space-x-4 cursor-pointer" data-category="promotions">
+                <div class="relative flex-shrink-0">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-2xl">🎁</div>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex justify-between items-center">
+                        <h2 class="font-bold">Summer Skill Offer!</h2>
+                        <span class="text-xs font-bold bg-brand-primary text-white px-2 py-1 rounded-full">Offer</span>
+                    </div>
+                    <p class="text-sm text-brand-text-muted">Get 20% off your next 3 lessons. Use code SUMMER20.</p>
+                    <p class="text-xs text-brand-text-muted mt-1">1d ago</p>
+                </div>
+            </div>
+            
+             <!-- Booking Cancellation Notification -->
+            <div class="notification-card bg-white rounded-2xl shadow-md p-4 flex items-start space-x-4 cursor-pointer" data-category="bookings">
+                <div class="relative flex-shrink-0">
+                    <div class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-2xl">📅</div>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="font-bold">Lesson Cancelled</h2>
+                    <p class="text-sm text-brand-text-muted">Your lesson with Vikram for web development has been cancelled.</p>
+                    <p class="text-xs text-brand-text-muted mt-1">2d ago</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center flex-grow flex flex-col items-center justify-center p-6">
+            <svg class="w-32 h-32 text-brand-border" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            <h2 class="text-xl font-bold mt-4">You're all caught up!</h2>
+            <p class="text-brand-text-muted mt-1 max-w-xs">New bookings, messages, and offers will appear here.</p>
+        </div>
+
+    </div>
+    
+    <script>
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const notificationList = document.getElementById('notification-list');
+        const emptyState = document.getElementById('empty-state');
+        const markAllReadBtn = document.getElementById('mark-all-read');
+
+        function filterNotifications(filter) {
+            const notifications = notificationList.querySelectorAll('.notification-card');
+            let hasVisibleNotifications = false;
+            
+            notifications.forEach(card => {
+                const category = card.dataset.category;
+                if (filter === 'all' || filter === category) {
+                    card.style.display = 'flex';
+                    hasVisibleNotifications = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (hasVisibleNotifications) {
+                notificationList.style.display = 'block';
+                emptyState.classList.add('hidden');
+            } else {
+                notificationList.style.display = 'none';
+                emptyState.classList.remove('hidden');
+            }
+        }
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab style
+                filterTabs.forEach(t => t.classList.remove('tab-active', 'text-brand-text-muted'));
+                tab.classList.add('tab-active');
+                filterTabs.forEach(t => {
+                    if (!t.classList.contains('tab-active')) {
+                        t.classList.add('text-brand-text-muted');
+                    }
+                });
+
+                const filterValue = tab.dataset.filter;
+                filterNotifications(filterValue);
+            });
+        });
+        
+        markAllReadBtn.addEventListener('click', () => {
+             const unreadCards = notificationList.querySelectorAll('.notification-unread');
+             const unreadDots = notificationList.querySelectorAll('.unread-dot');
+             
+             unreadCards.forEach(card => card.classList.remove('notification-unread'));
+             unreadDots.forEach(dot => dot.remove());
+        });
+
+        // Initial filter
+        filterNotifications('all');
+    </script>
+</body>
+</html>
