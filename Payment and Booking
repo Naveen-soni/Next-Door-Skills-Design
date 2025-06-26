@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Lesson - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-bg: #F8F7F4; /* Soft stone/paper */
+            --brand-card-bg: #FFFFFF;
+            --brand-primary: #D97757; /* Warm, desaturated terracotta */
+            --brand-primary-dark: #C76B4F;
+            --brand-secondary: #3A4F41; /* Deep forest green */
+            --brand-text: #3D3D3D;
+            --brand-text-muted: #8A8A8A;
+            --brand-border: #EAE9E5;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .section-fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .day-chip, .time-chip, .payment-card, .duration-chip {
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .day-chip-selected {
+            background-color: var(--brand-secondary) !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(58, 79, 65, 0.2);
+        }
+        .time-chip-selected, .duration-chip-selected {
+            background-color: var(--brand-primary) !important;
+            color: white !important;
+            border-color: var(--brand-primary) !important;
+            box-shadow: 0 5px 15px rgba(217, 119, 87, 0.3);
+        }
+
+        .payment-card-selected {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 2px var(--brand-primary);
+        }
+
+        .main-cta-button:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .cost-update {
+            animation: cost-pop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes cost-pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-bg': '#F8F7F4',
+                        'brand-card-bg': '#FFFFFF',
+                        'brand-primary': '#D97757',
+                        'brand-primary-dark': '#C76B4F',
+                        'brand-secondary': '#3A4F41',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-muted': '#8A8A8A',
+                        'brand-border': '#EAE9E5',
+                    },
+                     borderRadius: {
+                        '2xl': '1rem',
+                        '3xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen">
+
+    <div class="w-full flex flex-col justify-between relative">
+        <!-- Main Content (Scrollable) -->
+        <main class="flex-grow z-10 pb-40">
+            <div class="p-6 space-y-8">
+                <!-- Header -->
+                <header class="pt-8 pb-4 section-fade-in" style="animation-delay: 0.1s;">
+                    <p class="font-semibold text-brand-secondary">Booking for Classical Guitar</p>
+                    <h1 class="text-4xl font-extrabold mt-1">with Priya Sharma</h1>
+                </header>
+                
+                <!-- Main Booking Card -->
+                <section class="bg-brand-card-bg p-6 rounded-3xl shadow-2xl shadow-gray-300/40 section-fade-in" style="animation-delay: 0.3s;">
+                    <div class="space-y-6">
+                        <!-- Date & Time -->
+                        <div>
+                            <h2 class="text-lg font-bold mb-4">1. Select a Date & Time</h2>
+                            <div id="week-selector" class="no-scrollbar flex space-x-3 overflow-x-auto pb-4">
+                                <!-- Day chips injected by JS -->
+                            </div>
+                            <div id="time-selector" class="no-scrollbar flex space-x-3 overflow-x-auto pb-2 mt-2">
+                                <!-- Time chips injected by JS -->
+                            </div>
+                        </div>
+
+                        <hr class="border-t-2 border-dashed border-brand-border">
+
+                        <!-- Duration & Cost -->
+                        <div>
+                            <h2 class="text-lg font-bold mb-3">2. Choose Duration</h2>
+                             <div id="duration-selector" class="grid grid-cols-3 gap-3">
+                                <!-- Duration options injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Payment Methods -->
+                <section class="section-fade-in" style="animation-delay: 0.5s;">
+                    <h2 class="text-lg font-bold mb-4">3. Payment Method</h2>
+                     <div id="payment-selector" class="space-y-3">
+                        <!-- Payment methods injected by JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <!-- Sticky Bottom CTA Bar -->
+        <footer class="fixed bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-brand-bg via-brand-bg to-transparent">
+            <div class="bg-brand-card-bg p-4 rounded-3xl shadow-2xl shadow-gray-400/30">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-brand-text-muted font-medium">Total Payable</span>
+                    <p id="total-cost" class="text-3xl font-extrabold text-brand-text">₹500</p>
+                </div>
+                <button class="main-cta-button w-full bg-brand-primary text-white text-lg font-bold py-4 rounded-2xl shadow-lg shadow-brand-primary/40 hover:bg-brand-primary-dark transition-all duration-300">
+                    Confirm & Proceed to Pay
+                </button>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+    // --- State & Config ---
+    const state = {
+        baseRate: 500, // per 60 mins
+        selectedDate: new Date(),
+        selectedTime: "4:00 PM",
+        selectedDuration: 60,
+        selectedPayment: 'GPay',
+    };
+
+    const paymentMethods = [
+        { name: 'GPay', icon: 'https://www.gstatic.com/images/icons/material/system/2x/google_pay_mark_72dp.png' },
+        { name: 'Credit/Debit Card', icon: '💳' },
+        { name: 'Paytm Wallet', icon: 'https://cdn.freelogovectors.net/wp-content/uploads/2023/03/paytm-logo-freelogovectors.net_.png' }
+    ];
+    
+    const durationOptions = [
+        { label: '30 min', value: 30 },
+        { label: '45 min', value: 45 },
+        { label: '60 min', value: 60 },
+    ];
+
+    // --- DOM Elements ---
+    const weekSelector = document.getElementById('week-selector');
+    const timeSelector = document.getElementById('time-selector');
+    const durationSelector = document.getElementById('duration-selector');
+    const totalCostEl = document.getElementById('total-cost');
+    const paymentSelector = document.getElementById('payment-selector');
+    
+    // --- UI Rendering Functions ---
+
+    const renderWeek = () => {
+        weekSelector.innerHTML = '';
+        for (let i = 0; i < 7; i++) {
+            const day = new Date();
+            day.setDate(day.getDate() + i);
+            const isSelected = day.toDateString() === state.selectedDate.toDateString();
+            const dayChip = document.createElement('div');
+            dayChip.className = `day-chip flex-shrink-0 flex flex-col items-center justify-center w-20 h-24 rounded-2xl cursor-pointer ${isSelected ? 'day-chip-selected' : 'bg-gray-100'}`;
+            dayChip.innerHTML = `
+                <span class="text-sm font-semibold ${isSelected ? 'text-white/80' : 'text-brand-text-muted'}">${day.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                <span class="text-2xl font-bold mt-1">${day.getDate()}</span>
+            `;
+            dayChip.onclick = () => {
+                state.selectedDate = day;
+                renderWeek();
+            };
+            weekSelector.appendChild(dayChip);
+        }
+    };
+
+    const renderTimeSlots = () => {
+        const slots = ["4:00 PM", "5:30 PM", "7:00 PM"];
+        timeSelector.innerHTML = slots.map(slot => `
+            <div data-time="${slot}" class="time-chip flex-shrink-0 px-5 py-2.5 rounded-full font-bold cursor-pointer border-2 border-brand-border ${state.selectedTime === slot ? 'time-chip-selected' : ''}">
+                ${slot}
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.time-chip').forEach(chip => {
+            chip.onclick = () => {
+                state.selectedTime = chip.dataset.time;
+                renderTimeSlots();
+            };
+        });
+    };
+    
+    const renderDurationOptions = () => {
+        durationSelector.innerHTML = durationOptions.map(opt => `
+            <div data-value="${opt.value}" class="duration-chip flex-shrink-0 px-5 py-3 rounded-xl font-bold cursor-pointer border-2 border-brand-border text-center ${state.selectedDuration === opt.value ? 'duration-chip-selected' : ''}">
+                ${opt.label}
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.duration-chip').forEach(chip => {
+            chip.onclick = () => {
+                state.selectedDuration = parseInt(chip.dataset.value);
+                updateCost();
+                renderDurationOptions();
+            };
+        });
+    };
+    
+    const renderPaymentMethods = () => {
+        paymentSelector.innerHTML = paymentMethods.map(method => `
+             <div data-name="${method.name}" class="payment-card bg-brand-card-bg p-4 rounded-2xl flex items-center space-x-4 cursor-pointer border-2 ${state.selectedPayment === method.name ? 'payment-card-selected' : 'border-brand-border'}">
+                 ${method.icon.startsWith('http') 
+                        ? `<img src="${method.icon}" class="h-8 object-contain" alt="${method.name}">`
+                        : `<span class="text-3xl">${method.icon}</span>`
+                 }
+                <span class="font-bold text-lg flex-grow">${method.name}</span>
+                <div class="w-6 h-6 rounded-full border-2 ${state.selectedPayment === method.name ? 'bg-brand-primary border-brand-primary' : 'border-brand-border'} flex items-center justify-center transition-all duration-300">
+                    ${state.selectedPayment === method.name ? '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : ''}
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.payment-card').forEach(card => {
+            card.onclick = () => {
+                state.selectedPayment = card.dataset.name;
+                renderPaymentMethods();
+            }
+        });
+    };
+
+    const updateCost = () => {
+        const total = (state.baseRate / 60) * state.selectedDuration;
+        totalCostEl.textContent = `₹${total.toFixed(0)}`;
+        totalCostEl.classList.remove('cost-update');
+        void totalCostEl.offsetWidth; // Trigger reflow
+        totalCostEl.classList.add('cost-update');
+    };
+
+    // --- Initial Render ---
+    renderWeek();
+    renderTimeSlots();
+    renderDurationOptions();
+    renderPaymentMethods();
+    updateCost();
+
+    </script>
+</body>
+</html>
