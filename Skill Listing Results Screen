@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextDoor Skills - Guitar Lessons</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FDFCF9; /* brand-cream */
+            color: #3D3D3D; /* brand-text */
+        }
+
+        /* --- Custom UI Styles & Animations --- */
+        
+        /* Provider card tap/hover animation */
+        .provider-card {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .provider-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px -8px rgba(99, 102, 241, 0.15), 0 8px 12px -8px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Glow effect for active nav icon */
+        .nav-active svg {
+            color: #E86A6A; /* brand-terracotta */
+            filter: drop-shadow(0 0 8px rgba(232, 106, 106, 0.7));
+        }
+        .nav-active span {
+            color: #E86A6A; /* brand-terracotta */
+            font-weight: 600;
+        }
+    </style>
+    
+    <script>
+        // Custom color configuration for Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#FDFCF9',
+                        'brand-terracotta': '#E86A6A',
+                        'brand-olive': '#7C8A5B',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-light': '#6B6B6B',
+                        'brand-accent': '#F5C451', /* Warm yellow for ratings */
+                        'brand-bg-soft': '#F8F7F4',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg-soft">
+
+    <div id="app-container" class="min-h-screen w-screen flex flex-col">
+        
+        <!-- Sticky Header -->
+        <header class="sticky top-0 bg-brand-cream/80 backdrop-blur-lg z-30 shadow-sm">
+            <div class="p-4 space-y-3">
+                <!-- Search Bar -->
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                    <input type="text" value="Guitar lessons" class="w-full bg-white border border-gray-200 rounded-full pl-10 pr-4 py-2.5 text-brand-text placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-olive/50">
+                </div>
+                <!-- Filter & Sort Buttons -->
+                <div class="flex items-center justify-between space-x-2">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-semibold text-brand-text-light hover:bg-gray-50 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L16 11.414V16a1 1 0 01-.293.707l-2 2A1 1 0 0112 18v-6.586L3.293 6.707A1 1 0 013 6V4z" /></svg>
+                            <span>Filter</span>
+                        </button>
+                         <button class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-semibold text-brand-text-light hover:bg-gray-50 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" /></svg>
+                            <span>Sort</span>
+                        </button>
+                    </div>
+                     <span class="text-sm text-brand-text-light">12 providers found</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content: Providers List -->
+        <main class="flex-grow p-4 space-y-4">
+            <!-- Provider Card 1 -->
+            <div class="provider-card bg-brand-cream p-4 rounded-2xl shadow-md shadow-gray-200/50 flex space-x-4 items-center">
+                <img src="https://placehold.co/60x60/E86A6A/FFFFFF?text=A" alt="Aarav Mehta" class="w-16 h-16 rounded-full border-2 border-white flex-shrink-0">
+                <div class="flex-grow">
+                    <h3 class="font-bold text-lg text-brand-text">Aarav Mehta</h3>
+                    <p class="text-brand-text-light">Acoustic Guitar for Beginners</p>
+                    <div class="flex items-center space-x-2 text-sm mt-1">
+                        <span class="font-bold text-brand-accent">⭐ 4.9</span>
+                        <span class="text-gray-400">(22 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="font-bold text-brand-olive text-md">₹500/hr</span>
+                        <span class="text-xs text-brand-text-light flex items-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <span>1.5 km away</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Provider Card 2 -->
+            <div class="provider-card bg-brand-cream p-4 rounded-2xl shadow-md shadow-gray-200/50 flex space-x-4 items-center">
+                <img src="https://placehold.co/60x60/7C8A5B/FFFFFF?text=P" alt="Priya Sharma" class="w-16 h-16 rounded-full border-2 border-white flex-shrink-0">
+                <div class="flex-grow">
+                    <h3 class="font-bold text-lg text-brand-text">Priya Sharma</h3>
+                    <p class="text-brand-text-light">Classical & Electric Guitar</p>
+                    <div class="flex items-center space-x-2 text-sm mt-1">
+                        <span class="font-bold text-brand-accent">⭐ 5.0</span>
+                        <span class="text-gray-400">(15 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="font-bold text-brand-olive text-md">₹800/hr</span>
+                        <span class="text-xs text-brand-text-light flex items-center space-x-1">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <span>2.1 km away</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Provider Card 3 -->
+            <div class="provider-card bg-brand-cream p-4 rounded-2xl shadow-md shadow-gray-200/50 flex space-x-4 items-center">
+                <img src="https://placehold.co/60x60/F5C451/FFFFFF?text=R" alt="Rohan Verma" class="w-16 h-16 rounded-full border-2 border-white flex-shrink-0">
+                <div class="flex-grow">
+                    <h3 class="font-bold text-lg text-brand-text">Rohan Verma</h3>
+                    <p class="text-brand-text-light">Group Jam Sessions</p>
+                    <div class="flex items-center space-x-2 text-sm mt-1">
+                        <span class="font-bold text-brand-accent">⭐ 4.8</span>
+                        <span class="text-gray-400">(31 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="font-bold text-brand-olive text-md">₹350/hr</span>
+                        <span class="text-xs text-brand-text-light flex items-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <span>3.0 km away</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="bg-gradient-to-br from-brand-olive/80 to-brand-olive rounded-2xl p-6 text-center text-white flex flex-col items-center shadow-lg mt-6">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h4 class="font-bold text-lg">Can't find what you need?</h4>
+                <p class="text-sm opacity-90 mt-1 mb-4">Let the community know what you're looking for.</p>
+                <button class="bg-white text-brand-olive font-bold py-3 px-6 rounded-full transition-transform hover:scale-105">Post a Request</button>
+            </div>
+        </main>
+        
+        <!-- Bottom Navigation Bar -->
+        <nav class="sticky bottom-0 bg-white/80 backdrop-blur-sm shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.05)] rounded-t-2xl z-20">
+            <div class="flex justify-around items-center h-20 max-w-sm mx-auto">
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-terracotta transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M21 8.824c0 6.45-8.385 12.01-8.624 12.176a1 1 0 01-1.206-.001C10.932 20.832 3 15.272 3 8.824 3 5.048 6.048 2 9.824 2c2.47 0 4.106 1.341 4.676 2.05a1 1 0 001.453-.001C16.52 3.34 18.156 2 20.627 2 22.87 2 21 5.048 21 8.824zM12 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+                    <span class="text-xs mt-1">Home</span>
+                </a>
+                <a href="#" class="nav-active flex flex-col items-center transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    <span class="text-xs mt-1">Browse</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-terracotta transition-colors relative">
+                    <span class="absolute -top-1 -right-1 bg-brand-terracotta text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    <span class="text-xs mt-1">Messages</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-terracotta transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    <span class="text-xs mt-1">Profile</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
