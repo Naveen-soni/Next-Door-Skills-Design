@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --sidebar-bg: #1A202C; /* A dark slate */
+            --main-bg: #F7FAFC;    /* A very light grey */
+            --card-bg: #FFFFFF;
+            --primary-accent: #3182CE; /* A nice blue */
+            --primary-accent-light: #EBF4FF;
+            --text-dark: #2D3748;
+            --text-light: #A0AEC0;
+            --border-color: #E2E8F0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+        }
+        
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link.active, .sidebar-link:hover {
+            background-color: var(--primary-accent);
+            color: white;
+        }
+        .sidebar-link.active svg, .sidebar-link:hover svg {
+            color: white;
+        }
+
+        .content-view {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .content-view.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Custom scrollbar for activity log */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--main-bg); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #A0AEC0; }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'sidebar-bg': '#1A202C',
+                        'main-bg': '#F7FAFC',
+                        'card-bg': '#FFFFFF',
+                        'primary-accent': '#3182CE',
+                        'primary-accent-light': '#EBF4FF',
+                        'text-dark': '#2D3748',
+                        'text-light': '#A0AEC0',
+                        'border-color': '#E2E8F0',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen h-screen overflow-hidden">
+
+    <div class="flex h-full">
+        <!-- Fixed Sidebar -->
+        <aside class="w-64 bg-sidebar-bg text-white flex-shrink-0 flex flex-col">
+            <div class="h-20 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
+                Admin Panel
+            </div>
+            <nav id="sidebar-nav" class="flex-grow p-4 space-y-2">
+                <a href="#dashboard" data-view="dashboard" class="sidebar-link active flex items-center space-x-3 px-4 py-2.5 rounded-lg">
+                    <svg class="w-6 h-6 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span class="font-semibold">Dashboard</span>
+                </a>
+                <a href="#listings" data-view="listings" class="sidebar-link flex items-center space-x-3 px-4 py-2.5 rounded-lg">
+                    <svg class="w-6 h-6 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    <span class="font-semibold">Listings</span>
+                </a>
+                 <a href="#teachers" data-view="teachers" class="sidebar-link flex items-center space-x-3 px-4 py-2.5 rounded-lg">
+                    <svg class="w-6 h-6 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span class="font-semibold">Teachers</span>
+                </a>
+                 <a href="#commissions" data-view="commissions" class="sidebar-link flex items-center space-x-3 px-4 py-2.5 rounded-lg">
+                    <svg class="w-6 h-6 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span class="font-semibold">Commissions</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <div class="flex-grow flex flex-col">
+             <!-- Top Bar -->
+            <header class="h-20 bg-card-bg border-b border-border-color flex-shrink-0 flex items-center justify-between px-8">
+                <h1 id="view-title" class="text-2xl font-bold text-text-dark">Dashboard Overview</h1>
+                <div class="flex items-center space-x-4">
+                     <span class="font-semibold">Admin User</span>
+                     <img src="https://placehold.co/40x40/3182CE/FFFFFF?text=A" class="w-10 h-10 rounded-full" alt="Admin">
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main id="main-content" class="flex-grow p-8 overflow-y-auto">
+                <!-- Dashboard View -->
+                <div id="dashboard" class="content-view active">
+                    <!-- Stat Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-card-bg p-6 rounded-lg shadow-sm"><h3 class="text-text-light font-semibold">Active Listings</h3><p class="text-3xl font-bold mt-1">1,250</p></div>
+                        <div class="bg-card-bg p-6 rounded-lg shadow-sm"><h3 class="text-text-light font-semibold">Pending Reviews</h3><p class="text-3xl font-bold mt-1">82</p></div>
+                        <div class="bg-card-bg p-6 rounded-lg shadow-sm"><h3 class="text-text-light font-semibold">Commission (Month)</h3><p class="text-3xl font-bold mt-1">₹45,231</p></div>
+                        <div class="bg-card-bg p-6 rounded-lg shadow-sm"><h3 class="text-text-light font-semibold">Top Teacher</h3><p class="text-xl font-bold mt-1">Priya Sharma</p></div>
+                    </div>
+                    <!-- Chart & Activity -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                        <div class="lg:col-span-2 bg-card-bg p-6 rounded-lg shadow-sm">
+                            <h3 class="font-bold text-lg mb-4">Monthly Bookings</h3>
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                        <div class="bg-card-bg p-6 rounded-lg shadow-sm">
+                            <h3 class="font-bold text-lg mb-4">Recent Activity</h3>
+                            <div class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
+                                <p class="text-sm"><strong class="text-primary-accent">New Listing:</strong> "Yoga Basics" by Sunita M.</p>
+                                <p class="text-sm"><strong class="text-red-500">Flagged Content:</strong> Review on "Guitar Lessons".</p>
+                                <p class="text-sm"><strong class="text-green-500">User Report Resolved:</strong> #UR12345.</p>
+                                <p class="text-sm"><strong class="text-primary-accent">New Listing:</strong> "Advanced Cooking" by Rahul.</p>
+                                <p class="text-sm"><strong class="text-primary-accent">New Teacher:</strong> Aarav Mehta joined.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Listings View -->
+                <div id="listings" class="content-view">
+                     <div class="bg-card-bg p-6 rounded-lg shadow-sm">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <input type="text" placeholder="Search by name, skill..." class="md:col-span-2 w-full border border-border-color rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-accent">
+                            <select class="w-full border border-border-color rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-accent">
+                                <option>Filter by Status</option>
+                                <option>Published</option>
+                                <option>Pending</option>
+                                <option>Flagged</option>
+                            </select>
+                            <input type="date" class="w-full border border-border-color rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-accent">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50"><tr><th class="p-3">Listing Name</th><th class="p-3">Teacher</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-b border-border-color">
+                                        <td class="p-3">Guitar for Beginners</td><td class="p-3">Priya Sharma</td>
+                                        <td class="p-3"><span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">Published</span></td>
+                                        <td class="p-3 space-x-2"><button class="text-primary-accent">Edit</button><button class="text-red-500">Delete</button></td>
+                                    </tr>
+                                    <tr class="border-b border-border-color">
+                                        <td class="p-3">Yoga Basics</td><td class="p-3">Sunita M.</td>
+                                        <td class="p-3"><span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full">Pending</span></td>
+                                        <td class="p-3 space-x-2"><button class="text-primary-accent">Edit</button><button class="text-red-500">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                </div>
+                
+                <!-- Commissions View -->
+                <div id="commissions" class="content-view">
+                    <div class="bg-card-bg p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-4">Commissions Overview</h3>
+                         <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50"><tr><th class="p-3">Teacher</th><th class="p-3">Amount</th><th class="p-3">Status</th><th class="p-3">Date</th><th class="p-3">Actions</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-b border-border-color">
+                                        <td class="p-3">Rahul</td><td class="p-3">₹5000</td>
+                                        <td class="p-3"><span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full">Pending</span></td>
+                                        <td class="p-3">2025-06-25</td>
+                                        <td class="p-3 space-x-2"><button class="text-green-500">Approve</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="mt-4 bg-primary-accent text-white font-semibold px-4 py-2 rounded-lg">Export CSV</button>
+                    </div>
+                </div>
+                <!-- Other views (Teachers, Users, etc.) would go here -->
+                 <div id="teachers" class="content-view"><p>Teachers Management View</p></div>
+                 <div id="users" class="content-view"><p>Users Management View</p></div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // --- Sidebar Navigation Logic ---
+        const navLinks = document.querySelectorAll('.sidebar-link');
+        const contentViews = document.querySelectorAll('.content-view');
+        const viewTitle = document.getElementById('view-title');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetView = link.dataset.view;
+
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Update content view
+                contentViews.forEach(view => {
+                    view.classList.toggle('active', view.id === targetView);
+                });
+                
+                // Update title
+                viewTitle.textContent = link.textContent.trim() === 'Dashboard' ? 'Dashboard Overview' : link.textContent.trim() + ' Management';
+            });
+        });
+
+        // --- Chart.js Implementation ---
+        const ctx = document.getElementById('bookingsChart').getContext('2d');
+        const bookingsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Bookings',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: 'rgba(49, 130, 206, 0.1)',
+                    borderColor: 'rgba(49, 130, 206, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
