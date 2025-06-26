@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-bg: #F8F7F4;
+            --brand-card-bg: #FFFFFF;
+            --brand-primary: #D97757;
+            --brand-primary-dark: #C76B4F;
+            --brand-secondary: #3A4F41;
+            --brand-text: #3D3D3D;
+            --brand-text-muted: #8A8A8A;
+            --brand-border: #EAE9E5;
+            --status-green: #34A853;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .tab-indicator {
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toggle-bg:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            background: white;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            transition: transform 0.2s ease-in-out;
+        }
+        input:checked + .toggle-bg:after {
+            transform: translateX(100%);
+        }
+        input:checked + .toggle-bg {
+            background-color: var(--brand-secondary);
+        }
+
+        /* Active Nav Item */
+         .nav-active svg, .nav-active span {
+            color: var(--brand-primary);
+        }
+        .nav-active span {
+             font-weight: 600;
+        }
+
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-bg': '#F8F7F4',
+                        'brand-card-bg': '#FFFFFF',
+                        'brand-primary': '#D97757',
+                        'brand-primary-dark': '#C76B4F',
+                        'brand-secondary': '#3A4F41',
+                        'brand-text': '#3D3D3D',
+                        'brand-text-muted': '#8A8A8A',
+                        'brand-border': '#EAE9E5',
+                        'status-green': '#34A853',
+                    },
+                     borderRadius: {
+                        '2xl': '1rem',
+                        '3xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen">
+
+    <div class="w-full flex flex-col justify-between relative">
+        <!-- Main Content (Scrollable) -->
+        <main class="flex-grow z-10 pb-24">
+            <!-- Profile Header -->
+            <section class="text-center pt-12 pb-6">
+                <div class="relative inline-block">
+                    <img src="https://placehold.co/80x80/D97757/FFFFFF?text=N" alt="Neha Raj" class="w-20 h-20 rounded-full shadow-lg">
+                    <span class="absolute bottom-0 right-0 block h-5 w-5 bg-status-green rounded-full border-2 border-brand-bg"></span>
+                </div>
+                <h1 class="text-2xl font-bold mt-3">Neha Raj</h1>
+                <p class="text-sm text-brand-text-muted">Joined January 2024</p>
+            </section>
+
+            <!-- Tab Navigation -->
+            <section class="sticky top-0 bg-brand-bg/80 backdrop-blur-lg z-20 px-6">
+                <div id="tab-container" class="relative flex border-b border-brand-border">
+                    <button data-tab="my-skills" class="tab-button flex-1 py-4 text-sm font-semibold flex items-center justify-center space-x-2 text-brand-secondary">
+                        <span>🛠️</span><span>My Skills</span>
+                    </button>
+                    <button data-tab="my-bookings" class="tab-button flex-1 py-4 text-sm font-semibold flex items-center justify-center space-x-2 text-brand-text-muted">
+                        <span>📅</span><span>My Bookings</span>
+                    </button>
+                    <button data-tab="favorites" class="tab-button flex-1 py-4 text-sm font-semibold flex items-center justify-center space-x-2 text-brand-text-muted">
+                        <span>❤️</span><span>Favorites</span>
+                    </button>
+                    <button data-tab="settings" class="tab-button flex-1 py-4 text-sm font-semibold flex items-center justify-center space-x-2 text-brand-text-muted">
+                        <span>⚙️</span><span>Settings</span>
+                    </button>
+                    <div id="tab-indicator" class="absolute bottom-0 h-1 bg-brand-secondary rounded-full"></div>
+                </div>
+            </section>
+            
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- My Skills Content -->
+                <div id="my-skills" class="tab-content active">
+                    <!-- Empty State for My Skills -->
+                    <div id="skills-empty-state" class="text-center py-12">
+                        <svg class="mx-auto w-24 h-24 text-brand-border" fill="none" viewBox="0 0 100 100" stroke="currentColor" stroke-width="1"><path d="M 20,70 A 30,30 0 1 1 80,70 L 60,90 A 10,10 0 0 1 40,90 z M 50,20 A 10,10 0 1,1 50,40 A 10,10 0 0,1 50,20" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <h3 class="mt-4 text-lg font-semibold">You're not offering any skills yet.</h3>
+                        <p class="text-brand-text-muted mt-1 text-sm">Share your knowledge with the community.</p>
+                        <button class="mt-6 bg-brand-primary text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center space-x-2 mx-auto hover:bg-brand-primary-dark transition-colors">
+                            <span>🎓</span><span>Become a Teacher</span>
+                        </button>
+                    </div>
+                    <!-- Populated State for My Skills (Initially hidden) -->
+                    <div id="skills-populated-state" class="space-y-4 hidden">
+                         <div class="bg-white p-4 rounded-2xl shadow-md flex items-start space-x-4">
+                            <span class="text-2xl mt-1">🎸</span>
+                            <div class="flex-grow">
+                                <h4 class="font-bold">Guitar for Beginners</h4>
+                                <div class="flex items-center space-x-2 text-xs mt-1">
+                                    <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-semibold">Beginner</span>
+                                    <span class="text-brand-text-muted">•</span>
+                                    <span class="font-semibold text-brand-secondary">₹500/hr</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2 text-brand-text-muted">
+                                <button>✏️</button><button>🗑️</button>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- My Bookings Content -->
+                <div id="my-bookings" class="tab-content space-y-4">
+                     <div class="bg-white p-4 rounded-2xl shadow-md">
+                        <div class="flex justify-between items-start">
+                             <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/40x40/3A4F41/FFFFFF?text=P" class="w-10 h-10 rounded-full" alt="Priya Sharma">
+                                <div>
+                                    <h4 class="font-bold">Priya Sharma</h4>
+                                    <p class="text-sm text-brand-text-muted">Classical Guitar</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">Confirmed</span>
+                        </div>
+                        <div class="border-t border-dashed border-brand-border my-3"></div>
+                        <div class="text-sm text-brand-text-muted flex justify-between">
+                            <span>📅 June 28, 2025</span>
+                            <span>🕔 4:00 PM</span>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Favorites Content -->
+                <div id="favorites" class="tab-content space-y-3">
+                     <div class="bg-white p-3 rounded-2xl shadow-md flex items-center space-x-4">
+                         <img src="https://placehold.co/56x56/D97757/FFFFFF?text=A" class="w-14 h-14 rounded-xl" alt="Aarav Mehta">
+                         <div class="flex-grow">
+                             <h4 class="font-bold">Aarav Mehta</h4>
+                             <p class="text-sm text-brand-text-muted">Piano Masterclass</p>
+                         </div>
+                         <div class="flex space-x-2">
+                             <button class="bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center text-lg">💬</button>
+                             <button class="bg-red-100 w-10 h-10 rounded-full flex items-center justify-center text-lg">❤️</button>
+                         </div>
+                     </div>
+                </div>
+                
+                <!-- Settings Content -->
+                <div id="settings" class="tab-content bg-white rounded-2xl shadow-md divide-y divide-brand-border">
+                    <a href="#" class="p-4 flex justify-between items-center">
+                        <div class="flex items-center space-x-4"><span class="text-xl">👤</span><span class="font-semibold">Edit Profile</span></div>
+                        <span class="text-brand-text-muted">></span>
+                    </a>
+                     <a href="#" class="p-4 flex justify-between items-center">
+                        <div class="flex items-center space-x-4"><span class="text-xl">💳</span><span class="font-semibold">Payment Methods</span></div>
+                        <span class="text-brand-text-muted">></span>
+                    </a>
+                    <div class="p-4 flex justify-between items-center">
+                        <div class="flex items-center space-x-4"><span class="text-xl">🔔</span><span class="font-semibold">Push Notifications</span></div>
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only" checked>
+                            <div class="relative w-11 h-7 bg-gray-200 rounded-full toggle-bg"></div>
+                        </label>
+                    </div>
+                     <a href="#" class="p-4 flex justify-between items-center">
+                        <div class="flex items-center space-x-4"><span class="text-xl">🔒</span><span class="font-semibold">Privacy</span></div>
+                        <span class="text-brand-text-muted">></span>
+                    </a>
+                    <a href="#" class="p-4 flex justify-between items-center text-red-500">
+                        <div class="flex items-center space-x-4"><span class="text-xl">🚪</span><span class="font-semibold">Logout</span></div>
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Sticky Bottom Nav Bar -->
+        <footer class="fixed bottom-0 left-0 right-0 z-20 bg-brand-card-bg/90 backdrop-blur-lg border-t border-brand-border">
+            <div class="flex justify-around items-center h-20 max-w-sm mx-auto">
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-primary transition-colors space-y-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    <span class="text-xs">Home</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-primary transition-colors space-y-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    <span class="text-xs">Browse</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-gray-400 hover:text-brand-primary transition-colors space-y-1">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    <span class="text-xs">Messages</span>
+                </a>
+                <a href="#" class="nav-active flex flex-col items-center transition-colors space-y-1">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                    <span class="text-xs">Profile</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
+        const indicator = document.getElementById('tab-indicator');
+        const activeTabClasses = ['text-brand-secondary', 'font-bold'];
+        const inactiveTabClasses = ['text-brand-text-muted'];
+
+        function updateIndicator(el) {
+            indicator.style.width = `${el.offsetWidth}px`;
+            indicator.style.left = `${el.offsetLeft}px`;
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+
+                tabs.forEach(t => {
+                    t.classList.remove(...activeTabClasses);
+                    t.classList.add(...inactiveTabClasses);
+                });
+                tab.classList.add(...activeTabClasses);
+                tab.classList.remove(...inactiveTabClasses);
+
+                contents.forEach(content => {
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                
+                updateIndicator(tab);
+            });
+        });
+
+        // Initialize indicator
+        const initialActiveTab = document.querySelector('.tab-button[data-tab="my-skills"]');
+        updateIndicator(initialActiveTab);
+    </script>
+</body>
+</html>
