@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Skill Swap - NextDoor Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-peach: #FFDAB9;
+            --brand-mint: #E0F2F1;
+            --brand-lavender: #E6E6FA;
+            --brand-text: #4A4A4A;
+            --brand-skip: #FF6B6B;
+            --brand-connect: #50C878;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--brand-mint), var(--brand-peach));
+            color: var(--brand-text);
+            overscroll-behavior: contain;
+        }
+
+        /* --- Custom Animations & Styles --- */
+        .swap-card {
+            touch-action: none; /* Prevents scrolling while swiping */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: grab;
+        }
+        .swap-card:active {
+            cursor: grabbing;
+        }
+
+        .action-button {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .action-button:active {
+            transform: scale(0.9);
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--brand-connect);
+            opacity: 0;
+            animation: confetti-fall 2s ease-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-peach': '#FFDAB9',
+                        'brand-mint': '#E0F2F1',
+                        'brand-lavender': '#E6E6FA',
+                        'brand-text': '#4A4A4A',
+                        'brand-skip': '#FF6B6B',
+                        'brand-connect': '#50C878',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="w-screen h-screen overflow-hidden flex flex-col">
+
+    <!-- Header -->
+    <header class="text-center p-6 flex-shrink-0">
+        <h1 class="text-2xl font-bold text-brand-text flex items-center justify-center space-x-2">
+            <span>🤝</span>
+            <span>Skill Swap</span>
+        </h1>
+        <p class="text-sm text-brand-text/70 mt-1">Swipe right to connect and exchange skills!</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center justify-center relative p-4">
+        <!-- Card Stack -->
+        <div id="card-stack" class="relative w-full max-w-sm h-[65vh]">
+            <!-- Cards will be injected here -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div id="action-buttons" class="flex items-center justify-center space-x-12 mt-8">
+            <button id="skip-btn" class="action-button w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl">
+                <span class="text-4xl text-brand-skip">❌</span>
+            </button>
+             <button id="connect-btn" class="action-button w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl">
+                <span class="text-4xl text-brand-connect">✅</span>
+            </button>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center flex flex-col items-center justify-center h-full">
+            <span class="text-6xl">🤷‍♀️</span>
+            <h2 class="text-xl font-bold mt-4">No more swaps nearby.</h2>
+            <p class="text-brand-text/70 mt-1">Check again later or invite friends!</p>
+            <button class="mt-8 bg-brand-connect text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                Post Your Own Skill Swap
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
+    
+    <script>
+        const cardStack = document.getElementById('card-stack');
+        const skipBtn = document.getElementById('skip-btn');
+        const connectBtn = document.getElementById('connect-btn');
+        const emptyState = document.getElementById('empty-state');
+        const actionButtons = document.getElementById('action-buttons');
+        const confettiContainer = document.getElementById('confetti-container');
+
+        const users = [
+            { name: 'Rohan Mehta', pic: 'https://placehold.co/80x80/FF6B6B/FFFFFF?text=R', offered: '🎸 Guitar Lessons', wanted: '👨‍🍳 Cooking Tips', distance: '2 km away', quote: 'I want to learn how to make amazing pasta!' },
+            { name: 'Anjali Sharma', pic: 'https://placehold.co/80x80/50C878/FFFFFF?text=A', offered: '🎨 Digital Art', wanted: '🧘 Yoga Basics', distance: '5 km away', quote: 'Looking to find some inner peace through yoga.' },
+            { name: 'Vikram Singh', pic: 'https://placehold.co/80x80/4A90E2/FFFFFF?text=V', offered: '💻 Web Development', wanted: '🗣️ Spanish Lessons', distance: '1 km away', quote: 'Planning a trip to Spain next year!' },
+        ];
+
+        function createCard(user, index) {
+            const card = document.createElement('div');
+            card.className = 'swap-card absolute inset-0 bg-white rounded-2xl shadow-xl p-6 transform transition-transform duration-300 ease-out';
+            card.style.zIndex = users.length - index;
+            card.style.transform = `translateY(${index * 8}px) scale(${1 - index * 0.05})`;
+            card.innerHTML = `
+                <div class="relative w-full h-full">
+                    <div class="flex items-center space-x-4">
+                        <img src="${user.pic}" class="w-16 h-16 rounded-full border-4 border-white shadow-md" alt="${user.name}">
+                        <div>
+                            <h2 class="text-xl font-bold">${user.name}</h2>
+                            <p class="text-sm text-brand-text/70">${user.distance}</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 space-y-4 text-center">
+                        <div>
+                            <p class="text-xs font-semibold text-brand-text/60">OFFERING</p>
+                            <p class="text-2xl font-bold">${user.offered}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-brand-text/60">WANTS TO LEARN</p>
+                            <p class="text-2xl font-bold">${user.wanted}</p>
+                        </div>
+                    </div>
+                    <p class="absolute bottom-4 text-center w-full text-sm italic text-brand-text/80">"${user.quote}"</p>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderCards() {
+            cardStack.innerHTML = '';
+            users.forEach((user, index) => {
+                cardStack.appendChild(createCard(user, index));
+            });
+            if (users.length > 0) addSwipeListeners(cardStack.lastElementChild);
+            else showEmptyState();
+        }
+
+        function addSwipeListeners(card) {
+            let startX, startY;
+            let isDragging = false;
+
+            function onStart(e) {
+                isDragging = true;
+                card.style.transition = 'none';
+                startX = e.clientX || e.touches[0].clientX;
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                const currentX = e.clientX || e.touches[0].clientX;
+                const diffX = currentX - startX;
+                const rotation = diffX / 20; // Rotate based on drag distance
+                card.style.transform = `translateX(${diffX}px) rotate(${rotation}deg)`;
+            }
+
+            function onEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                const diffX = (e.clientX || e.changedTouches[0].clientX) - startX;
+                
+                if (Math.abs(diffX) > card.offsetWidth / 4) {
+                    swipe(diffX > 0 ? 'right' : 'left');
+                } else {
+                    card.style.transition = 'transform 0.3s ease';
+                    card.style.transform = 'translateX(0) rotate(0)';
+                }
+            }
+
+            card.addEventListener('mousedown', onStart);
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            card.addEventListener('touchstart', onStart, { passive: true });
+            document.addEventListener('touchmove', onMove, { passive: true });
+            document.addEventListener('touchend', onEnd);
+        }
+
+        function swipe(direction) {
+            const topCard = cardStack.lastElementChild;
+            if (!topCard) return;
+
+            const flyoutX = (direction === 'right' ? 1 : -1) * window.innerWidth;
+            topCard.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+            topCard.style.transform = `translateX(${flyoutX}px) rotate(${direction === 'right' ? 15 : -15}deg)`;
+            topCard.style.opacity = '0';
+            
+            if (direction === 'right') {
+                triggerConfetti();
+            }
+
+            users.pop();
+            setTimeout(() => {
+                renderCards();
+            }, 300);
+        }
+
+        function showEmptyState() {
+            cardStack.classList.add('hidden');
+            actionButtons.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+        }
+
+        function triggerConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -50}vh`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                confettiContainer.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+            }
+        }
+
+        skipBtn.addEventListener('click', () => swipe('left'));
+        connectBtn.addEventListener('click', () => swipe('right'));
+
+        renderCards();
+    </script>
+</body>
+</html>
